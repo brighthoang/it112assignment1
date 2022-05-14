@@ -39,7 +39,7 @@ class Resource(models.Model):
         return self.resourcename
 
     class Meta:
-        db_table='resource'
+        db_table = 'resource'
 
 
 class Event(models.Model):
@@ -54,5 +54,4 @@ class Event(models.Model):
         return self.eventtitle
 
     class Meta:
-        db_table='event'
-
+        db_table = 'event'
