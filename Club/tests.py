@@ -2,7 +2,7 @@ from django.test import TestCase
 from .models import Meeting, MeetingMinutes, Resource, Event
 from django.contrib.auth.models import User
 import datetime
-# from .forms import ProductForm
+from .forms import MeetingForm, ResourceForm
 # from django.urls import reverse_lazy, reverse
 
 class MeetingTest(TestCase):
@@ -49,3 +49,61 @@ class EventTest(TestCase):
 
     def test_tablename(self):
         self.assertEqual(str(Event._meta.db_table), 'event')
+
+class NewResourceForm(TestCase):
+    def test_resourceform(self):
+        data={
+               'resourcename':'Apple Watch', 
+               'resourcetype' :'Electronics', 
+               'url':'https://apple.com/', 
+               'dateentered': '2022-05-12',
+               'userid': 'bright',
+               'description':'cool watch to use'
+            } 
+
+        form=ResourceForm (data)
+        self.assertTrue(form.is_valid)
+
+    # apparently the one under this comment doesnt work ">>> is not false"
+    
+    def test_Resourceform_Invalid(self):
+        data={
+               'resourcename':'Apple Watch', 
+               'resourcetype' :'Electronics', 
+               'url':'apple', 
+               'dateentered': 'January 1, 2010',
+               'userid': 'bright2',
+               'description':'cool watch to use'
+            } 
+        form=ResourceForm (data)
+        self.assertFalse(form.is_valid)
+        
+
+
+class NewMeetingForm(TestCase):
+    def test_meetingform(self):
+        data={
+               'meetingtitle':'Gibbitz Conversation', 
+               'meetingdate' :'2019-02-27', 
+               'meetingtime':'13:00', 
+               'location': 'Roxbery Hill',
+               'agenda': 'Talking about Gibbitz and Crocs!!!'
+            } 
+
+        form=MeetingForm (data)
+        self.assertTrue(form.is_valid)
+
+    # apparently the one under this comment doesnt work ">>> is not false"
+    
+    def test_Meetingform_Invalid(self):
+        data={
+               'meetingtitle':'Gibbitz Conversation', 
+               'meetingdate' :'27/90/0', 
+               'meetingtime':'13:00', 
+               'location': 'Roxbery Hill',
+               'agenda': 'Talking about Gibbitz and Crocs!!!'
+            } 
+        form=MeetingForm (data)
+        self.assertFalse(form.is_valid)
+        
+        
