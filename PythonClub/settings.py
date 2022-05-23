@@ -125,5 +125,8 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+LOGIN_REDIRECT_URL='loginmessage'
+LOGOUT_REDIRECT_URL='logoutmessage'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
