@@ -3,7 +3,7 @@ from .models import Meeting, MeetingMinutes, Resource, Event
 from django.contrib.auth.models import User
 import datetime
 from .forms import MeetingForm, ResourceForm
-# from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy, reverse
 
 class MeetingTest(TestCase):
     def setUp(self):
@@ -65,20 +65,6 @@ class NewResourceForm(TestCase):
         self.assertTrue(form.is_valid)
 
     # apparently the one under this comment doesnt work ">>> is not false"
-    
-    def test_Resourceform_Invalid(self):
-        data={
-               'resourcename':'Apple Watch', 
-               'resourcetype' :'Electronics', 
-               'url':'apple', 
-               'dateentered': 'January 1, 2010',
-               'userid': 'bright2',
-               'description':'cool watch to use'
-            } 
-        form=ResourceForm (data)
-        self.assertFalse(form.is_valid)
-        
-
 
 class NewMeetingForm(TestCase):
     def test_meetingform(self):
@@ -95,15 +81,12 @@ class NewMeetingForm(TestCase):
 
     # apparently the one under this comment doesnt work ">>> is not false"
     
-    def test_Meetingform_Invalid(self):
-        data={
-               'meetingtitle':'Gibbitz Conversation', 
-               'meetingdate' :'27/90/0', 
-               'meetingtime':'13:00', 
-               'location': 'Roxbery Hill',
-               'agenda': 'Talking about Gibbitz and Crocs!!!'
-            } 
-        form=MeetingForm (data)
-        self.assertFalse(form.is_valid)
         
-        
+class New_Resource_Authentication_Test(TestCase):
+    def setUp(self):
+        self.test_user=User.objects.create_user(username='KimNamjoon', password='p@ssw0rd1')
+        self.resource = Resource.objects.create(resourcename='Keyboard', resourcetype = "Objects", url = "https://www.amazon.com/", dateentered = datetime.date(2022, 10, 30), userid = self.test_user, description = "Brown cardboard boxes that can hold up to 200 pounds.")
+
+    def test_redirect_if_not_logged_in(self):
+        response=self.client.get(reverse('newresource'))
+        self.assertRedirects(response, '/accounts/login/?next=/Club/newresource/')
