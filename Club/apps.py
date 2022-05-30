@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+# j1 test
 
 
 class ClubConfig(AppConfig):
